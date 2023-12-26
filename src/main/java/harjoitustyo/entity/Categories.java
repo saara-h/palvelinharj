@@ -1,4 +1,4 @@
-package newtables;
+package harjoitustyo.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

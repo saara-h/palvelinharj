@@ -1,4 +1,4 @@
-package newtables;
+package harjoitustyo.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
