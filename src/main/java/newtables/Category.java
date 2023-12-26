@@ -1,5 +1,6 @@
 package newtables;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -11,11 +12,12 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
-public class Categories extends AbstractPersistable <Long> {
-
-    private String categoryName;
+public class Category extends AbstractPersistable <Long> {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private Users user;
+    private User user;
+
+    @Column(name = "category_name", nullable = false)
+    private String categoryName;
 }
