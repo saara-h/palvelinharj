@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
-public class User extends AbstractPersistable <Long> {
+public class Users extends AbstractPersistable <Long> {
 
     @Column(name = "username", unique = true, nullable = false)
     private String username;

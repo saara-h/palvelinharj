@@ -12,11 +12,11 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
-public class Category extends AbstractPersistable <Long> {
+public class Categories extends AbstractPersistable <Long> {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Users user;
 
     @Column(name = "category_name", nullable = false)
     private String categoryName;

@@ -1,25 +1,31 @@
 package newtables;
 
-import java.sql.Date;
-import java.sql.Time;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import org.springframework.data.jpa.domain.AbstractPersistable;
+
+import java.sql.Date;
+import java.sql.Time;
+import java.util.Set;
+
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor
-public class Event extends AbstractPersistable<Long> {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Events extends AbstractPersistable<Long> {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Users user;
 
     @Column(name = "event_title", nullable = false)
     private String eventTitle;
@@ -35,4 +41,13 @@ public class Event extends AbstractPersistable<Long> {
 
     @Column(name = "due_date")
     private Date dueDate;
+
+    @ManyToMany
+    @JoinTable(
+            name = "event_categories",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private Set<Categories> categories;
+
 }
