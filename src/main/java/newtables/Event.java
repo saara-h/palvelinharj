@@ -24,6 +24,6 @@ public class Event extends AbstractPersistable<Long> {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Users user;
     
 }

@@ -13,7 +13,7 @@ import java.util.List;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
-public class User extends AbstractPersistable <Long> {
+public class Users extends AbstractPersistable <Long> {
 
     private String username;
     private String password;
