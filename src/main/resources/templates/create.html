@@ -11,6 +11,8 @@
 <form action="/events/create" method="post" th:object="${event}">
     <label for="eventTitle">Event Title:</label>
     <input type="text" id="eventTitle" name="eventTitle" th:field="*{title}" required>
+    <label for="eventDate">Event Date:</label>
+    <input type="text" id="eventDate" name="eventDate" required>
     
     <!-- Add other fields as needed -->
 
