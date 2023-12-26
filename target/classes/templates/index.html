@@ -1,11 +1,56 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>-</title>
-    </head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event CRUD</title>
+</head>
+<body>
 
-    <body>
-        <h1>-</h1>
+<!-- Create Event Form -->
+<form action="/events/create" method="post">
+    <label for="eventTitle">Event Title:</label>
+    <input type="text" id="eventTitle" name="eventTitle" required>
+    
+    <!-- Add other fields as needed -->
 
-    </body>
+    <button type="submit">Create Event</button>
+</form>
+
+<!-- Read All Events -->
+<h2>All Events</h2>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Event Title</th>
+            <th>Event Description</th>
+            <th>Event Date</th>
+            <th>Category</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Display all events here -->
+        <tr th:each="event : ${events}">
+            <td th:text="${event.eventTitle}"></td>
+            <td th:text="${event.eventDescription}"></td>
+            <td th:text="${#dates.format(event.eventDate, 'dd-MM-yyyy')}"></td>
+            <td th:text="${#dates.format(event.eventTime, 'HH:mm')}"></td>
+            <td th:text="${#dates.format(event.dueDate, 'dd-MM-yyyy')}"></td>
+            
+            <!-- Display user name -->
+            <td th:text="${event.user.username}"></td>
+            
+            <!-- Display categories as a comma-separated list -->
+            <td th:text="${#lists.join(event.categories.![name], ', ')}"></td>
+            
+            <td>
+                <a th:href="@{'/events/edit/' + ${event.id}}">Edit</a>
+                <a th:href="@{'/events/delete/' + ${event.id}}">Delete</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
 </html>
