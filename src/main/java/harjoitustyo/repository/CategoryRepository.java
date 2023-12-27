@@ -7,5 +7,4 @@ import harjoitustyo.entity.Categories;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Categories, Long> {
-    // You can add custom query methods if needed
 }

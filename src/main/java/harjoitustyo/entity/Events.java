@@ -23,6 +23,9 @@ import java.util.Set;
 @AllArgsConstructor
 public class Events extends AbstractPersistable<Long> {
 
+    public Events(String name, Date date) {
+    }
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private Users user;

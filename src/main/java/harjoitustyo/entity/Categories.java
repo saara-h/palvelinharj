@@ -18,6 +18,6 @@ public class Categories extends AbstractPersistable <Long> {
     @JoinColumn(name = "user_id")
     private Users user;
 
-    @Column(name = "category_name", nullable = false)
+    @Column(name = "category_name", nullable = true)
     private String categoryName;
 }

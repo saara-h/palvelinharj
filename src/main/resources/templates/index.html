@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,9 +13,7 @@
     <input type="text" id="eventTitle" name="eventTitle" required>
 
     <label for="eventDate">Event Date:</label>
-    <input type="text" id="eventDate" name="eventDate" required>
-
-    <!-- Add other fields as needed -->
+    <input type="date" id="eventDate" name="eventDate" required>
 
     <button type="submit">Create Event</button>
 </form>
@@ -35,24 +33,25 @@
     <tbody>
         <!-- Display all events here -->
         <tr th:each="event : ${events}">
-            <td th:text="${event.eventTitle}"></td>
-            <td th:text="${event.eventDescription}"></td>
-            <td th:text="${#dates.format(event.eventDate, 'dd-MM-yyyy')}"></td>
-            <td th:text="${#dates.format(event.eventTime, 'HH:mm')}"></td>
-            <td th:text="${#dates.format(event.dueDate, 'dd-MM-yyyy')}"></td>
-            
-            <!-- Display user name -->
-            <td th:text="${event.user.username}"></td>
-            
-            <!-- Display categories as a comma-separated list -->
-            <td th:text="${#lists.join(event.categories.![name], ', ')}"></td>
-            
+            <td th:text="${event.eventTitle}">Event Title</td>
+            <td th:text="${event.eventDescription}">Event Description</td>
+            <td th:text="${#dates.format(event.eventDate, 'dd-MM-yyyy')}">Event Date</td>
             <td>
-                <a th:href="@{'/events/edit/' + ${event.id}}">Edit</a>
-                <a th:href="@{'/events/delete/' + ${event.id}}">Delete</a>
+                <!-- Assuming Categories has a 'name' property, adjust accordingly -->
+                <span th:each="category : ${event.categories}" th:text="${category.categoryName} + ' '"></span>
+            </td>
+            <td>
+                <form th:action="@{/events/edit/{id}(id=${event.id})}" method="post">
+                    <button type="submit">Edit</button>
+                </form>
+                <form th:action="@{/events/delete/{id}(id=${event.id})}" method="post">
+                    <button type="submit">Delete</button>
+                </form>
             </td>
         </tr>
+        <!-- Add more rows for additional events -->
     </tbody>
+    
 </table>
 
 </body>
