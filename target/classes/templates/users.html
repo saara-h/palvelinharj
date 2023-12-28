@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>User Database</title>
+    </head>
+
+    <body>
+        <h1>User Database</h1>
+
+        <table>
+            <tr>
+                <th>Users</th>
+            </tr>
+
+            <tr th:each="user : ${list}">
+                <td th:text="${user.username}">Username</td>
+            </tr>
+        </table>
+
+        <h2>Add an user</h2>
+
+        <form th:action="@{/users/}" method="post">
+            <span>Name:</span>
+            <br>
+            <input type="text" name="username"/>
+            <br>
+            <span>Password:</span>
+            <br>
+            <input type="text" name="passwordHash">
+            <br><br>            
+            <input type="submit" value="Add!"/>
+        </form>
+    </body>
+</html>
