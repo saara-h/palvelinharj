@@ -64,7 +64,11 @@ public class EventController {
 
     
     @PostMapping("/edit/{id}")
-    public String editEvent(@PathVariable Long id, @RequestParam String eventTitle, @RequestParam Date eventDate) {
+    public String editEvent(
+        @PathVariable Long id, 
+        @RequestParam String eventTitle, 
+        @RequestParam Date eventDate,
+        @RequestParam(required = false) String eventDescription) {
         // Retrieve the existing event by ID
         Events existingEvent = eventRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid event ID: " + id));
@@ -72,6 +76,7 @@ public class EventController {
         // Update the event with new information
         existingEvent.setEventTitle(eventTitle);
         existingEvent.setEventDate(eventDate);
+        existingEvent.setEventDescription(eventDescription);
 
         // Save the updated event
         eventRepository.save(existingEvent);
