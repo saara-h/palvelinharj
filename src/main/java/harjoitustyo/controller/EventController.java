@@ -30,6 +30,7 @@ public class EventController {
         return "index";
     }
 
+
     @PostMapping("/create")
     public String create(@RequestParam String eventTitle,
                          @RequestParam Date eventDate) {
@@ -44,12 +45,40 @@ public class EventController {
         return "redirect:/events/";
     }
 
-    @PostMapping("/edit/{id}")
+    @GetMapping("/edit/{id}")
     public String editEvent(@PathVariable Long id, Model model) {
-        // Logic for editing an event
+        // Retrieve existing event using the id
+        Events event = eventRepository.findById(id).orElse(null);
+    
+        // Add the event data to the model for the edit form
+        if (event != null) {
+            model.addAttribute("eventId", event.getId());
+            model.addAttribute("eventTitle", event.getEventTitle());
+            model.addAttribute("eventDate", event.getEventDate());
+            // Add other properties as needed
+        }
+    
+        // Return the edit form view
+        return "edit";
+    }
+
+    
+    @PostMapping("/edit/{id}")
+    public String editEvent(@PathVariable Long id, @RequestParam String eventTitle, @RequestParam Date eventDate) {
+        // Retrieve the existing event by ID
+        Events existingEvent = eventRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid event ID: " + id));
+
+        // Update the event with new information
+        existingEvent.setEventTitle(eventTitle);
+        existingEvent.setEventDate(eventDate);
+
+        // Save the updated event
+        eventRepository.save(existingEvent);
+
         return "redirect:/events/";
     }
-    
+
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
         this.eventRepository.deleteById(id);

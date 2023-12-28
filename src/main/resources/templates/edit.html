@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Head content -->
+</head>
+<body>
+    <h2>Edit Event</h2>
+    <form action="/events/edit/{id}" method="post">
+        <!-- Add other form fields as needed -->
+        <label for="eventTitle">Event Title:</label>
+        <input type="text" id="eventTitle" name="eventTitle" th:value="${eventTitle}" required>
+        
+        <button type="submit">Save Changes</button>
+    </form>    
+</body>
+</html>
