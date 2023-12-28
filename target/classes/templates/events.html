@@ -7,7 +7,6 @@
 </head>
 <body>
 
-<!-- Create Event Form -->
 <form action="/events/create" method="post">
     <label for="eventTitle">Event Title:</label>
     <input type="text" id="eventTitle" name="eventTitle" required>
@@ -18,7 +17,6 @@
     <button type="submit">Create Event</button>
 </form>
 
-<!-- Read All Events -->
 <h2>All Events</h2>
 <table border="1">
     <thead>
@@ -31,13 +29,13 @@
         </tr>
     </thead>
     <tbody>
-        <!-- Display all events here -->
+
         <tr th:each="event : ${events}">
             <td th:text="${event.eventTitle}">Event Title</td>
             <td th:text="${event.eventDescription}">Event Description</td>
             <td th:text="${#dates.format(event.eventDate, 'dd-MM-yyyy')}">Event Date</td>
             <td>
-                <!-- Assuming Categories has a 'name' property, adjust accordingly -->
+
                 <span th:each="category : ${event.categories}" th:text="${category.categoryName} + ' '"></span>
             </td>
             <td>
@@ -51,7 +49,7 @@
                 </form>
             </td>
         </tr>
-        <!-- Add more rows for additional events -->
+
     </tbody>
     
 </table>

@@ -1,14 +1,11 @@
 package harjoitustyo.controller;
 
 import java.sql.Date;
-import java.util.List;
 
-import org.apache.regexp.recompile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,10 +23,9 @@ public class EventController {
 
     @GetMapping("/")
     public String list(Model model) {
-        model.addAttribute("events", this.eventRepository.findAll());
-        return "index";
+        model.addAttribute("events", this.eventRepository.findAllByOrderByEventDateAsc());
+        return "events";
     }
-
 
     @PostMapping("/create")
     public String create(@RequestParam String eventTitle,
@@ -57,12 +53,10 @@ public class EventController {
             model.addAttribute("eventDate", event.getEventDate());
             // Add other properties as needed
         }
-    
-        // Return the edit form view
+
         return "edit";
     }
 
-    
     @PostMapping("/edit/{id}")
     public String editEvent(
         @PathVariable Long id, 
