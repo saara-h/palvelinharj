@@ -126,4 +126,25 @@ public class EventController {
         return "redirect:/events/";
     }
 
+
+    // katsellaan eventtejä kategorioittain
+    @GetMapping("/eventsbycategory")
+    public String eventsByCategory(@RequestParam(required = false) Long categoryId, Model model) {
+    List<Events> events;
+
+    if (categoryId != null) {
+        Categories selectedCategory = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + categoryId));
+        events = eventRepository.findByCategories(selectedCategory);
+    } else {
+        events = eventRepository.findAll();
+    }
+
+    model.addAttribute("events", events);
+    model.addAttribute("categories", categoryRepository.findAll());
+
+    return "eventsbycategory";
+}
+
+
 }

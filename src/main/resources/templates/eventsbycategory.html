@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events by Category</title>
+</head>
+<body>
+
+<h2>Events by Category</h2>
+
+<table border="1">
+    <thead>
+        <tr>
+            <!-- Add a th for each category -->
+            <th th:each="category : ${categories}" th:text="${category.categoryName}"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Loop through events -->
+        <tr th:each="event : ${events}">
+            <!-- Loop through categories to populate cells with event names -->
+            <td th:each="category : ${categories}">
+                <span th:if="${#lists.contains(event.categories, category)}" th:text="${event.eventTitle}"></span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p>
+    <a th:href="@{/events/}">Back to All Events</a>
+</p>
+
+</body>
+</html>
