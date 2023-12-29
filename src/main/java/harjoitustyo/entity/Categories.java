@@ -2,8 +2,6 @@ package harjoitustyo.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,10 +12,8 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @Data @NoArgsConstructor @AllArgsConstructor
 public class Categories extends AbstractPersistable <Long> {
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private Users user;
-
-    @Column(name = "category_name", nullable = true)
+    @Column(name = "category_name")
     private String categoryName;
+
 }
+

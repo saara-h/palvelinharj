@@ -16,11 +16,10 @@
         <label for="eventDescription">Event Description:</label>
         <input type="text" id="eventDescription" name="eventDescription" value="${eventDescription}">
 
-        <!-- <label for="categories">Category:</label>
-        <select name="categories">
-            <option value="1">Työtapahtuma</option>
-            <option value="2">Category 2</option>
-        </select> -->
+        <label for="categoryId">Categories</label>
+        <select name="categoryId">
+            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.categoryName}"></option>
+        </select>
 
         <button type="submit">Save Changes</button>
     </form>    

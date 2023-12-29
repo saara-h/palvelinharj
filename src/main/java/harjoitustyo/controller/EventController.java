@@ -1,6 +1,9 @@
 package harjoitustyo.controller;
 
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale.Category;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import harjoitustyo.entity.Categories;
 import harjoitustyo.entity.Events;
+import harjoitustyo.repository.CategoryRepository;
 import harjoitustyo.repository.EventRepository;
 
 @Controller
@@ -20,12 +25,15 @@ public class EventController {
 
     @Autowired
     private EventRepository eventRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
 
-    // Haetaan eventit 
+    // Haetaan eventit ja categoriat
     @GetMapping("/")
     public String list(Model model) {
         model.addAttribute("events", this.eventRepository.findAllByOrderByEventDateAsc());
+        model.addAttribute("categories", this.categoryRepository.findAll());
         return "events";
     }
 
@@ -45,13 +53,17 @@ public class EventController {
     // Luodaan uusi eventti, title ja päiväys pakolliset
     @PostMapping("/create")
     public String create(@RequestParam String eventTitle,
-                         @RequestParam Date eventDate) {
+                         @RequestParam Date eventDate,
+                         @RequestParam List<Long> categoryId) {
  
         Events newEvent = new Events();
         newEvent.setEventTitle(eventTitle);
         newEvent.setEventDate(eventDate);
 
-        // Tänne pitäisi saada vielä kategoria
+        // Retrieve selected categories from the repository
+        List<Categories> categories = categoryRepository.findAllById(categoryId);
+        // Set the categories for the event
+        newEvent.setCategories(new HashSet<>(categories));
 
         this.eventRepository.save(newEvent);
         return "redirect:/events/";
@@ -71,6 +83,10 @@ public class EventController {
             model.addAttribute("eventDate", event.getEventDate());
         }
 
+            // Include categories in the model for the edit form
+        List<Categories> categories = categoryRepository.findAll();
+        model.addAttribute("categories", categories);
+
         return "edit";
     }
 
@@ -81,7 +97,8 @@ public class EventController {
         @PathVariable Long id, 
         @RequestParam String eventTitle, 
         @RequestParam Date eventDate,
-        @RequestParam(required = false) String eventDescription) {
+        @RequestParam(required = false) String eventDescription,
+        @RequestParam List<Long> categoryId) {
         // Retrieve the existing event by ID
         Events existingEvent = eventRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid event ID: " + id));
@@ -89,6 +106,12 @@ public class EventController {
         existingEvent.setEventTitle(eventTitle);
         existingEvent.setEventDate(eventDate);
         existingEvent.setEventDescription(eventDescription);
+
+        // Retrieve existing category by ID
+        List<Categories> categories = categoryRepository.findAllById(categoryId);
+
+        // Set the category for the event
+        existingEvent.setCategories(new HashSet<>(categories));
 
         eventRepository.save(existingEvent);
 

@@ -15,6 +15,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -51,6 +52,6 @@ public class Events extends AbstractPersistable<Long> {
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private Set<Categories> categories;
+    private Set<Categories> categories = new HashSet<>();
 
 }
