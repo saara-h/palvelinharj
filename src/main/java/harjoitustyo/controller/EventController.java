@@ -21,26 +21,44 @@ public class EventController {
     @Autowired
     private EventRepository eventRepository;
 
+
+    // Haetaan eventit 
     @GetMapping("/")
     public String list(Model model) {
         model.addAttribute("events", this.eventRepository.findAllByOrderByEventDateAsc());
         return "events";
     }
 
+    @GetMapping("/{id}")
+    public String showEventDetails(@PathVariable Long id, Model model) {
+        // Retrieve the event details based on the provided ID
+        Events event = eventRepository.findById(id).orElse(null);
+
+        // Add the event to the model
+        model.addAttribute("event", event);
+
+        // Return the template name for the individual event page
+        return "eventdetails";
+    }
+
+
+    // Luodaan uusi eventti, title ja päiväys pakolliset
     @PostMapping("/create")
     public String create(@RequestParam String eventTitle,
                          @RequestParam Date eventDate) {
-        // Parse the date, create event, associate categories, and save to the repository
+ 
         Events newEvent = new Events();
         newEvent.setEventTitle(eventTitle);
         newEvent.setEventDate(eventDate);
 
-        // Set other attributes as needed
+        // Tänne pitäisi saada vielä kategoria
 
         this.eventRepository.save(newEvent);
         return "redirect:/events/";
     }
 
+
+    // Muokkaustilaan
     @GetMapping("/edit/{id}")
     public String editEvent(@PathVariable Long id, Model model) {
         // Retrieve existing event using the id
@@ -51,12 +69,13 @@ public class EventController {
             model.addAttribute("eventId", event.getId());
             model.addAttribute("eventTitle", event.getEventTitle());
             model.addAttribute("eventDate", event.getEventDate());
-            // Add other properties as needed
         }
 
         return "edit";
     }
 
+    
+    // Tallennetaan muutokset
     @PostMapping("/edit/{id}")
     public String editEvent(
         @PathVariable Long id, 
@@ -67,17 +86,17 @@ public class EventController {
         Events existingEvent = eventRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid event ID: " + id));
 
-        // Update the event with new information
         existingEvent.setEventTitle(eventTitle);
         existingEvent.setEventDate(eventDate);
         existingEvent.setEventDescription(eventDescription);
 
-        // Save the updated event
         eventRepository.save(existingEvent);
 
         return "redirect:/events/";
     }
 
+
+    // Poista tapahtuma
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
         this.eventRepository.deleteById(id);

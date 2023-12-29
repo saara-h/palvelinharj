@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Details</title>
+</head>
+<body>
+
+<h2>Event Details</h2>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Event Title</th>
+            <th>Event Description</th>
+            <th>Event Date</th>
+            <th>Category</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td th:text="${event.eventTitle}">Event Title</td>
+            <td th:text="${event.eventDescription}">Event Description</td>
+            <td th:text="${#dates.format(event.eventDate, 'dd-MM-yyyy')}">Event Date</td>
+            <td>
+                <span th:each="category : ${event.categories}" th:text="${category.categoryName} + ' '"></span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p>
+    <a th:href="@{/events/}">Back to All Events</a>
+</p>
+
+</body>
+</html>
